@@ -29,6 +29,7 @@
   "homepage": "https://github.com/Glatek/rutabaga#readme",
   "devDependencies": {
     "@biomejs/biome": "^1.5.0",
+    "ajv": "^8.12.0",
     "vite": "^5.0.11"
   }
 }
