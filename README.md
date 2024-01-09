@@ -1,6 +1,6 @@
 # @glatek/rutabaga
 
-![Rutabaga Logo](https://i.imgur.com/QfxAM93.png)
+![Rutabaga Logo](https://i.imgur.com/0eOAq3T.png)
 
 JSON Schema-backed CRUD operations in Service Workers with IndexedDB.
 
