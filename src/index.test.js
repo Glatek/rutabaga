@@ -1,3 +1,4 @@
+import { Dexie, Table } from "dexie";
 import { expect, test, describe } from "vitest";
 import { Rutabaga } from "./index";
 
@@ -21,10 +22,11 @@ const jsonSchemaExample = {
 	},
 	additionalProperties: false,
 };
+const dataBaseName = 'tomten';
 
 describe("validate", () => {
 	test("returns true if we can successfully validate the data to the schema", () => {
-		const rutabaga = new Rutabaga(jsonSchemaExample);
+		const rutabaga = new Rutabaga(jsonSchemaExample, dataBaseName);
 
 		expect(
 			rutabaga.validate({
@@ -36,7 +38,7 @@ describe("validate", () => {
 	});
 
 	test("returns false if the data is not valid to the schema", () => {
-		const rutabaga = new Rutabaga(jsonSchemaExample);
+		const rutabaga = new Rutabaga(jsonSchemaExample, dataBaseName);
 
 		expect(
 			rutabaga.validate({
@@ -44,5 +46,19 @@ describe("validate", () => {
 				catsAge: 4,
 			}),
 		).toBe(false);
+	});
+});
+
+describe('database', () => {
+	const db = new Dexie(dataBaseName);
+
+	db.version(1).stores({
+		friends: 'id, name, age'
+	});
+
+	test("creates instance", async () => {
+		const rutabaga = new Rutabaga(jsonSchemaExample, dataBaseName);
+
+		expect(rutabaga.table).not.toBe(undefined);
 	});
 });
