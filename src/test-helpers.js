@@ -1,6 +1,15 @@
+
+/** @typedef PersonSchema
+ *  @prop {string} firstName
+ *  @prop {string} lastName
+ *  @prop {number} age
+ */
+
+/** @type {import('ajv').JSONSchemaType<PersonSchema>} */
 export const jsonSchemaExample = {
   title: "Person",
   type: "object",
+  required: ['age', 'firstName', 'lastName'],
   properties: {
     firstName: {
       type: "string",
@@ -18,4 +27,5 @@ export const jsonSchemaExample = {
   },
   additionalProperties: false,
 };
+
 export const dataBaseName = 'tomten';
