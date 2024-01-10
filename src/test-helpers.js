@@ -1,4 +1,3 @@
-
 /** @typedef PersonSchema
  *  @prop {string} firstName
  *  @prop {string} lastName
