@@ -22,7 +22,7 @@ describe('post', () => {
     const response = await rutabaga.api.post(request);
 
     expect(response.status).toBe(402);
-    expect(response.statusText).toBe('The provided form data did not validate against the schema. Reason: [{"instancePath":"","schemaPath":"#/additionalProperties","keyword":"additionalProperties","params":{"additionalProperty":"middleName"},"message":"must NOT have additional properties"}]');
+    expect(response.statusText).toBe(`The provided form data did not validate against the schema. Reason: [{"instancePath":"","schemaPath":"#/required","keyword":"required","params":{"missingProperty":"firstName"},"message":"must have required property 'firstName'"}]`);
   });
 
   test("returns 201 if form data is accepted and added to the database", async () => {
