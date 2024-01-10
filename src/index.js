@@ -41,7 +41,7 @@ export class Rutabaga {
 	 */
 	#openDatabase() {
 		if (!this.#dataBaseName) {
-			throw new Error("No data base name provided in the construvtor");
+			throw new Error("No data base name provided in the constructor");
 		}
 
 		return new Dexie(this.#dataBaseName);
@@ -80,7 +80,7 @@ export class Rutabaga {
 		if (!this.validate(obj)) {
 			return new Response(null, {
 				status: httpStatusCodes.BAD_REQUEST,
-				statusText: `The provided form data did not validate against the schema "${this.#schemaName}". ${JSON.stringify(this.#schema)}`
+				statusText: `The provided form data did not validate against the schema "${this.#schemaName}". Reason: ${JSON.stringify(this.#validate.errors)}`
 			});
 		}
 
