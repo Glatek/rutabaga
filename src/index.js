@@ -1,12 +1,9 @@
 import Ajv from "ajv";
 import { Dexie } from "dexie";
-import { convertFormDataToObject } from "./helpers/convertFormDataToObject.js";
 
-const httpStatusCodes = {
-	CREATED: 201,
-	BAD_REQUEST: 402,
-};
+import { APIRoutes } from "./classes/apiRoutes.js";
 
+/** @type { import('ajv').default } */
 // @ts-ignore
 const ajv = new Ajv();
 
@@ -14,7 +11,7 @@ export class Rutabaga {
 	/** @type {object} */
 	#schema = undefined;
 
-	/** @type {ReturnType<typeof ajv.compile>} */
+	/** @type {import('ajv').ValidateFunction} */
 	#validate = undefined;
 
 	/** @type {string} */
@@ -22,6 +19,9 @@ export class Rutabaga {
 
 	/** @type {Dexie} */
 	#dataBase = undefined;
+
+	/** @type {APIRoutes} */
+	apiRoutes = undefined;
 
 	/**
 	 * @param {Object} schema
@@ -32,6 +32,8 @@ export class Rutabaga {
 		this.#validate = ajv.compile(schema);
 		this.#dataBaseName = dataBaseName;
 		this.#dataBase = this.#openDatabase();
+
+		this.api = new APIRoutes(this.#dataBase, this.#validate);
 
 		this.#ensureDatabaseTables();
 	}
@@ -67,25 +69,5 @@ export class Rutabaga {
 	 */
 	validate(object) {
 		return this.#validate(object);
-	}
-
-	/**
-	 * @param {Request} request
-	 * @returns {Promise<Response>}
-	 */
-	async handlePost(request) {
-		const formData = await request.formData();
-		const obj = convertFormDataToObject(formData);
-
-		if (!this.validate(obj)) {
-			return new Response(null, {
-				status: httpStatusCodes.BAD_REQUEST,
-				statusText: `The provided form data did not validate against the schema "${this.#schemaName}". Reason: ${JSON.stringify(this.#validate.errors)}`
-			});
-		}
-
-		return new Response(null, {
-			status: httpStatusCodes.CREATED
-		});
 	}
 }
