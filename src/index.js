@@ -2,6 +2,11 @@ import Ajv from "ajv";
 import { Dexie } from "dexie";
 import { convertFormDataToObject } from "./helpers/convertFormDataToObject.js";
 
+const httpStatusCodes = {
+	CREATED: 201,
+	BAD_REQUEST: 402,
+};
+
 // @ts-ignore
 const ajv = new Ajv();
 
@@ -58,6 +63,7 @@ export class Rutabaga {
 
 	/**
 	 * @param {Object} object
+	 * @returns {boolean}
 	 */
 	validate(object) {
 		return this.#validate(object);
@@ -65,11 +71,21 @@ export class Rutabaga {
 
 	/**
 	 * @param {Request} request
-	 * @returns {Response}
+	 * @returns {Promise<Response>}
 	 */
 	async handlePost(request) {
 		const formData = await request.formData();
 		const obj = convertFormDataToObject(formData);
 
+		if (!this.validate(obj)) {
+			return new Response(null, {
+				status: httpStatusCodes.BAD_REQUEST,
+				statusText: `The provided form data did not validate against the schema "${this.#schemaName}". ${JSON.stringify(this.#schema)}`
+			});
+		}
+
+		return new Response(null, {
+			status: httpStatusCodes.CREATED
+		});
 	}
 }
