@@ -1,6 +1,8 @@
 import Ajv from "ajv";
 import { Dexie } from "dexie";
+import { convertFormDataToObject } from "./helpers/convertFormDataToObject.js";
 
+// @ts-ignore
 const ajv = new Ajv();
 
 export class Rutabaga {
@@ -31,7 +33,6 @@ export class Rutabaga {
 
 	/**
 	 * @returns {Dexie}
-	 * @private
 	 */
 	#openDatabase() {
 		if (!this.#dataBaseName) {
@@ -66,8 +67,9 @@ export class Rutabaga {
 	 * @param {Request} request
 	 * @returns {Response}
 	 */
-	handlePost(request) {
-		const formData = request.formData();
-		// ... validate FormData to JSON Schema then add to DB.
+	async handlePost(request) {
+		const formData = await request.formData();
+		const obj = convertFormDataToObject(formData);
+
 	}
 }
