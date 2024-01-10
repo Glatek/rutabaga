@@ -9,19 +9,19 @@ const ajv = new Ajv();
 
 export class Rutabaga {
 	/** @type {object} */
-	#schema = undefined;
+	#schema;
 
 	/** @type {import('ajv').ValidateFunction} */
-	#validate = undefined;
+	#validate;
 
 	/** @type {string} */
-	#dataBaseName = undefined;
+	#dataBaseName;
 
 	/** @type {Dexie} */
-	#dataBase = undefined;
+	#dataBase;
 
 	/** @type {APIRoutes} */
-	apiRoutes = undefined;
+	apiRoutes;
 
 	/**
 	 * @param {Object} schema

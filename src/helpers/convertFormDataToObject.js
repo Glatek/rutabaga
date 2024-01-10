@@ -1,13 +1,11 @@
+import { stringIsBoolean, stringIsNumber, stringIsDate } from "./stringIs.js";
+
 /**
  * @param {FormData} formData
  * @return {object}
  */
 export function convertFormDataToObject(formData) {
   const finalObject = {};
-
-  const stringIsDate = str => /^\d{4}-\d{2}-\d{2}$/.test(str);
-  const stringIsNumber = str => /^-?\d*\.?\d+$/.test(str);
-  const stringIsBoolean = str => /^(true|false)$/i.test(str);
 
   for (const entry of formData.entries()) {
     const [entryKey, entryValue] = entry;
