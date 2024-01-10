@@ -1,11 +1,8 @@
-import { Dexie } from "dexie";
 import { expect, test, describe } from "vitest";
 import { jsonSchemaExample, dataBaseName } from "../test-helpers.js";
 import { Rutabaga } from "../index.js";
 
 describe('post', () => {
-  const db = new Dexie(dataBaseName);
-
   test("returns 402 if form data is malformed", async () => {
     const rutabaga = new Rutabaga(jsonSchemaExample, dataBaseName);
 
