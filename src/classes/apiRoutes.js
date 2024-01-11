@@ -2,6 +2,7 @@ import { convertFormDataToObject } from "../helpers/convertFormDataToObject.js";
 import { schemaUrlIdToId } from "../helpers/schemaUrlIdToId.js";
 
 const httpStatusCodes = {
+  OK: 200,
   CREATED: 201,
   BAD_REQUEST: 402,
 };
@@ -29,9 +30,25 @@ export class APIRoutes {
   }
 
   /**
-     * @param {Request} request
-     * @returns {Promise<Response>}
-     */
+   * @param {Request} request
+   * @returns {Promise<Response>}
+   */
+  async get(request) {
+    await this.#dataBase.open();
+
+    const tableName = schemaUrlIdToId(this.#schema.$id ?? '');
+
+    const objects = await this.#dataBase.table(tableName).toArray();
+
+    return new Response(JSON.stringify(objects), {
+      status: httpStatusCodes.OK
+    });
+  }
+
+  /**
+   * @param {Request} request
+   * @returns {Promise<Response>}
+   */
   async post(request) {
     const formData = await request.formData();
     const newObject = convertFormDataToObject(formData);
