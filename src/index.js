@@ -8,7 +8,7 @@ import { APIRoutes } from "./classes/apiRoutes.js";
 const ajv = new Ajv();
 
 export class Rutabaga {
-	/** @type {object} */
+	/** @type {import('ajv/lib/types/json-schema.js').SomeJSONSchema} */
 	#schema;
 
 	/** @type {import('ajv').ValidateFunction} */
@@ -23,8 +23,10 @@ export class Rutabaga {
 	/** @type {APIRoutes} */
 	apiRoutes;
 
+
+
 	/**
-	 * @param {Object} schema
+	 * @param {import('ajv/lib/types/json-schema.js').SomeJSONSchema} schema
 	 * @param {string} dataBaseName
 	 */
 	constructor(schema, dataBaseName) {
@@ -33,7 +35,7 @@ export class Rutabaga {
 		this.#dataBaseName = dataBaseName;
 		this.#dataBase = this.#openDatabase();
 
-		this.api = new APIRoutes(this.#dataBase, this.#validate);
+		this.api = new APIRoutes(this.#dataBase, this.#validate, this.#schema);
 
 		this.#ensureDatabaseTables();
 	}

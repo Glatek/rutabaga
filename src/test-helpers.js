@@ -6,6 +6,7 @@
 
 /** @type {import('ajv').JSONSchemaType<PersonSchema>} */
 export const jsonSchemaExample = {
+  $id: 'https://glatek.se/person.schema.json',
   title: "Person",
   type: "object",
   required: ['age', 'firstName', 'lastName'],
