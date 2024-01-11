@@ -1,11 +1,11 @@
-import { expect, test, suite } from "vitest";
+import { expect, test, describe } from "vitest";
 import { jsonSchemaExample, dataBaseName } from "../test-helpers.js";
 import { Rutabaga } from "../index.js";
 
 // Shared rutabaga for all suites.
 const rutabaga = new Rutabaga(jsonSchemaExample, dataBaseName);
 
-suite('post', () => {
+describe('post', () => {
   test("returns 402 if form data is malformed", async () => {
     const rutabaga = new Rutabaga(jsonSchemaExample, dataBaseName);
 
@@ -43,7 +43,7 @@ suite('post', () => {
   });
 });
 
-suite('get', () => {
+describe('get', () => {
   test('can get data', async () => {
     const getResponse = await rutabaga.api.get(new Request('http://localhost:1234'));
     const json = await getResponse.json();
