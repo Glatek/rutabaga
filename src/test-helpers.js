@@ -11,6 +11,11 @@ export const jsonSchemaExample = {
   type: "object",
   required: ['age', 'firstName', 'lastName'],
   properties: {
+    id: {
+      type: "string",
+      description: "The person's unique id.",
+      $comment: 'primary'
+    },
     firstName: {
       type: "string",
       description: "The person's first name.",

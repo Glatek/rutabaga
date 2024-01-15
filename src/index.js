@@ -3,17 +3,9 @@ import { Dexie } from "dexie";
 
 import { APIRoutes } from "./classes/apiRoutes.js";
 
-/** @type { import('ajv').default } */
-// @ts-ignore
-const ajv = new Ajv();
-
 export class Rutabaga {
 	/** @type {import('ajv/lib/types/json-schema.js').SomeJSONSchema} */
 	#schema;
-
-	/** @type {import('ajv').ValidateFunction} */
-	#validate;
-
 	/** @type {string} */
 	#dataBaseName;
 
@@ -31,11 +23,10 @@ export class Rutabaga {
 	 */
 	constructor(schema, dataBaseName) {
 		this.#schema = schema;
-		this.#validate = ajv.compile(schema);
 		this.#dataBaseName = dataBaseName;
 		this.#dataBase = this.#openDatabase();
 
-		this.api = new APIRoutes(this.#dataBase, this.#validate, this.#schema);
+		this.api = new APIRoutes(this.#dataBase, this.#schema);
 
 		this.#ensureDatabaseTables();
 	}
@@ -53,7 +44,13 @@ export class Rutabaga {
 
 	#ensureDatabaseTables() {
 		this.#dataBase.version(1).stores({
-			[this.#schemaName]: Object.keys(this.#schema.properties).join(', ')
+			[this.#schemaName]: Object.entries(this.#schema.properties).map(([k, v]) => {
+				if ('$comment' in v && v.$comment.includes('primary')) {
+					return `&${k}`;
+				}
+
+				return k;
+			}).join(', ')
 		});
 	}
 
@@ -63,13 +60,5 @@ export class Rutabaga {
 
 	get table() {
 		return this.#dataBase.table(this.#schemaName);
-	}
-
-	/**
-	 * @param {Object} object
-	 * @returns {boolean}
-	 */
-	validate(object) {
-		return this.#validate(object);
 	}
 }

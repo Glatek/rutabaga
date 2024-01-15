@@ -3,6 +3,11 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   test: {
-    setupFiles: ['vitest-setup.js']
+    browser: {
+      name: 'chromium',
+      enabled: true,
+      headless: false,
+      provider: 'playwright'
+    }
   },
 });
