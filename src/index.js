@@ -1,7 +1,7 @@
-import Ajv from "ajv";
 import { Dexie } from "dexie";
 
 import { APIRoutes } from "./classes/apiRoutes.js";
+import { FrameRoutes } from "./classes/frameRoutes.js";
 
 export class Rutabaga {
 	/** @type {import('ajv/lib/types/json-schema.js').SomeJSONSchema} */
@@ -27,6 +27,7 @@ export class Rutabaga {
 		this.#dataBase = this.#openDatabase();
 
 		this.api = new APIRoutes(this.#dataBase, this.#schema);
+		this.frames = new FrameRoutes(this.#dataBase, this.#schema);
 
 		this.#ensureDatabaseTables();
 	}

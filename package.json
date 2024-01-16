@@ -39,7 +39,7 @@
     "dexie": "^3.2.4",
     "playwright": "^1.40.1",
     "vite": "^5.0.11",
-    "vite-plugin-dts": "^3.7.0",
-    "vitest": "^1.1.3"
+    "vite-plugin-dts": "^3.7.1",
+    "vitest": "^1.2.0"
   }
 }

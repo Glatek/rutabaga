@@ -44,105 +44,121 @@ export class APIRoutes {
 
   /**
    * @param {Request} request
-   * @returns {Promise<Response>}
+   * @returns {Promise<Response | undefined>}
    */
   async get(request) {
-    await this.#dataBase.open();
+    try {
+      await this.#dataBase.open();
 
-    const tableName = schemaUrlIdToId(this.#schema.$id ?? '');
+      const tableName = schemaUrlIdToId(this.#schema.$id ?? '');
 
-    const objects = await this.#dataBase.table(tableName).toArray();
+      const objects = await this.#dataBase.table(tableName).toArray();
 
-    return new Response(JSON.stringify(objects), {
-      status: httpStatusCodes.OK
-    });
+      return new Response(JSON.stringify(objects), {
+        status: httpStatusCodes.OK
+      });
+    } catch (e) {
+      console.error('GET error, e');
+    }
   }
 
   /**
    * @param {Request} request
-   * @returns {Promise<Response>}
+   * @returns {Promise<Response | undefined>}
    */
   async post(request) {
-    const formData = await request.formData();
-    const newObject = convertFormDataToObject(formData);
+    try {
+      const formData = await request.formData();
+      const newObject = convertFormDataToObject(formData);
 
-    if (!this.#validate(newObject)) {
-      return new Response(null, {
-        status: httpStatusCodes.BAD_REQUEST,
-        statusText: `The provided form data did not validate against the schema. Reason: ${JSON.stringify(this.#validate.errors)}`
+      if (!this.#validate(newObject)) {
+        return new Response(null, {
+          status: httpStatusCodes.BAD_REQUEST,
+          statusText: `The provided form data did not validate against the schema. Reason: ${JSON.stringify(this.#validate.errors)}`
+        });
+      }
+
+      await this.#dataBase.open();
+
+      const tableName = schemaUrlIdToId(this.#schema.$id ?? '');
+
+      if (!('id' in newObject)) {
+        newObject.id = crypto.randomUUID();
+      }
+
+      await this.#dataBase.table(tableName).add(newObject);
+
+      return new Response(JSON.stringify(newObject), {
+        status: httpStatusCodes.CREATED
       });
+    } catch (e) {
+      console.error('POST error', e);
     }
-
-    await this.#dataBase.open();
-
-    const tableName = schemaUrlIdToId(this.#schema.$id ?? '');
-
-    if (!('id' in newObject)) {
-      newObject.id = crypto.randomUUID();
-    }
-
-    await this.#dataBase.table(tableName).add(newObject);
-
-    return new Response(JSON.stringify(newObject), {
-      status: httpStatusCodes.CREATED
-    });
   }
 
   /**
    * @param {Request} request
-   * @returns {Promise<Response>}
+   * @returns {Promise<Response | undefined>}
    */
   async put(request) {
-    const formData = await request.formData();
-    const newObject = convertFormDataToObject(formData);
+    try {
+      const formData = await request.formData();
+      const newObject = convertFormDataToObject(formData);
 
-    if (!this.#validate(newObject)) {
-      return new Response(null, {
-        status: httpStatusCodes.BAD_REQUEST,
-        statusText: `The provided form data did not validate against the schema. Reason: ${JSON.stringify(this.#validate.errors)}`
+      if (!this.#validate(newObject)) {
+        return new Response(null, {
+          status: httpStatusCodes.BAD_REQUEST,
+          statusText: `The provided form data did not validate against the schema. Reason: ${JSON.stringify(this.#validate.errors)}`
+        });
+      }
+
+      await this.#dataBase.open();
+
+      const tableName = schemaUrlIdToId(this.#schema.$id ?? '');
+
+      if (!('id' in newObject)) {
+        newObject.id = crypto.randomUUID();
+      }
+
+      await this.#dataBase.table(tableName).put(newObject);
+
+      return new Response(JSON.stringify(newObject), {
+        status: httpStatusCodes.CREATED
       });
+    } catch (e) {
+      console.error('PUT error', e);
     }
-
-    await this.#dataBase.open();
-
-    const tableName = schemaUrlIdToId(this.#schema.$id ?? '');
-
-    if (!('id' in newObject)) {
-      newObject.id = crypto.randomUUID();
-    }
-
-    await this.#dataBase.table(tableName).put(newObject);
-
-    return new Response(JSON.stringify(newObject), {
-      status: httpStatusCodes.CREATED
-    });
   }
 
   /**
    * @param {Request} request
-   * @returns {Promise<Response>}
+   * @returns {Promise<Response | undefined>}
    */
   async patch(request) {
-    const formData = await request.formData();
-    const newObject = convertFormDataToObject(formData);
+    try {
+      const formData = await request.formData();
+      const newObject = convertFormDataToObject(formData);
 
-    if (!this.#validatePatch(newObject)) {
-      return new Response(null, {
-        status: httpStatusCodes.BAD_REQUEST,
-        statusText: `The provided form data did not validate against the schema. Reason: ${JSON.stringify(this.#validate.errors)}`
+      if (!this.#validatePatch(newObject)) {
+        return new Response(null, {
+          status: httpStatusCodes.BAD_REQUEST,
+          statusText: `The provided form data did not validate against the schema. Reason: ${JSON.stringify(this.#validate.errors)}`
+        });
+      }
+
+      await this.#dataBase.open();
+
+      const tableName = schemaUrlIdToId(this.#schema.$id ?? '');
+
+      await this.#dataBase.table(tableName).update(newObject.id, newObject);
+
+      const result = await this.#dataBase.table(tableName).get(newObject.id);
+
+      return new Response(JSON.stringify(result), {
+        status: httpStatusCodes.OK
       });
+    } catch (e) {
+      console.error('PATCH error', e);
     }
-
-    await this.#dataBase.open();
-
-    const tableName = schemaUrlIdToId(this.#schema.$id ?? '');
-
-    await this.#dataBase.table(tableName).update(newObject.id, newObject);
-
-    const result = await this.#dataBase.table(tableName).get(newObject.id);
-
-    return new Response(JSON.stringify(result), {
-      status: httpStatusCodes.OK
-    });
   }
 }

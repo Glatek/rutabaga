@@ -28,10 +28,10 @@ export class FrameRoutes {
    */
   async get(request) {
     const html = String.raw;
-    const formElements = this.#schema.properties
-      .filter(property => {
-        return !property.$comment.includes('readOnly');
-      }).map(property => {
+    const formElements = Object.entries(this.#schema.properties)
+      .filter(([propertyName, property]) => {
+        return !property.$comment || (property.$comment && !property.$comment.includes('readOnly'));
+      }).map(([propertyName, property]) => {
         let inputType;
 
         switch (property.type) {
@@ -43,17 +43,11 @@ export class FrameRoutes {
             break;
         }
 
-        return html`
-          <input type="${inputType}" />
-        `;
+        return html`<input type="${inputType}" name="${propertyName}" />`;
       })
       .join('');
 
-    const body = html`
-      <form>
-        ${formElements}
-      </form>
-    `;
+    const body = html`<form>${formElements}</form>`;
 
     return new Response(body, {
       headers: new Headers({
