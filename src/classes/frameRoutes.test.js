@@ -10,6 +10,6 @@ describe('get', () => {
     const getResponse = await rutabaga.frames.get(new Request('http://localhost:1234'));
     const text = await getResponse.text();
 
-    expect(text).toStrictEqual('<form><input type="text" name="firstName" /><input type="text" name="lastName" /><input type="number" name="age" /></form>');
+    expect(text).toStrictEqual('<form><input type="text" name="firstName required /><input type="text" name="lastName required /><input type="number" name="age required /><input type="date" name="birthday /></form>');
   })
 });

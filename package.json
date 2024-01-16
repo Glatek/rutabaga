@@ -36,6 +36,7 @@
     "@biomejs/biome": "^1.5.0",
     "@vitest/browser": "^1.2.0",
     "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
     "dexie": "^3.2.4",
     "playwright": "^1.40.1",
     "vite": "^5.0.11",

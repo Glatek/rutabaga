@@ -1,10 +1,14 @@
 import Ajv from "ajv";
+import addFormats from "ajv-formats";
 import { convertFormDataToObject } from "../helpers/convertFormDataToObject.js";
 import { schemaUrlIdToId } from "../helpers/schemaUrlIdToId.js";
 
 /** @type { import('ajv').default } */
 // @ts-ignore
 const ajv = new Ajv();
+
+// @ts-ignore
+addFormats(ajv);
 
 const httpStatusCodes = {
   OK: 200,

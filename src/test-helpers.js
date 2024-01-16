@@ -29,6 +29,11 @@ export const jsonSchemaExample = {
       type: "integer",
       minimum: 0,
     },
+    birthday: {
+      description: "Date of birth.",
+      type: "string",
+      format: "date-time"
+    }
   },
   additionalProperties: false,
 };

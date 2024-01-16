@@ -28,6 +28,7 @@ export class FrameRoutes {
    */
   async get(request) {
     const html = String.raw;
+    const requiredProperties = [...(this.#schema.required || [])];
     const formElements = Object.entries(this.#schema.properties)
       .filter(([propertyName, property]) => {
         return !property.$comment || (property.$comment && !property.$comment.includes('readOnly'));
@@ -43,7 +44,26 @@ export class FrameRoutes {
             break;
         }
 
-        return html`<input type="${inputType}" name="${propertyName}" />`;
+        switch (property.format) {
+          case 'date-time':
+            inputType = 'date';
+            break;
+          default:
+            break;
+        }
+
+        const attributes = [];
+
+        attributes.push(`type="${inputType}"`);
+        attributes.push(`name="${propertyName}`);
+
+        if (requiredProperties.includes(propertyName)) {
+          attributes.push('required');
+        }
+
+
+
+        return html`<input ${attributes.join(' ')} />`;
       })
       .join('');
 
