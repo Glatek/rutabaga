@@ -15,8 +15,6 @@ export class Rutabaga {
 	/** @type {APIRoutes} */
 	apiRoutes;
 
-
-
 	/**
 	 * @param {import('ajv/lib/types/json-schema.js').SomeJSONSchema} schema
 	 * @param {string} dataBaseName
@@ -45,13 +43,15 @@ export class Rutabaga {
 
 	#ensureDatabaseTables() {
 		this.#dataBase.version(1).stores({
-			[this.#schemaName]: Object.entries(this.#schema.properties).map(([k, v]) => {
-				if ('$comment' in v && v.$comment.includes('primary')) {
-					return `&${k}`;
-				}
+			[this.#schemaName]: Object.entries(this.#schema.properties)
+				.map(([k, v]) => {
+					if ("$comment" in v && v.$comment.includes("primary")) {
+						return `&${k}`;
+					}
 
-				return k;
-			}).join(', ')
+					return k;
+				})
+				.join(", "),
 		});
 	}
 

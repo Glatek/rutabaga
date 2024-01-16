@@ -10,8 +10,8 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "vitest",
-		"biome": "npx @biomejs/biome",
-		"lint:fix": "npx @biomejs/biome check --apply ./src"
+		"biome": "npx @biomejs/biome check ./src",
+		"biome:fix": "npx @biomejs/biome check --apply ./src"
 	},
 	"repository": {
 		"type": "git",
