@@ -28,9 +28,30 @@ export class FrameRoutes {
    */
   async get(request) {
     const html = String.raw;
+    const formElements = this.#schema.properties
+      .filter(property => {
+        return !property.$comment.includes('readOnly');
+      }).map(property => {
+        let inputType;
+
+        switch (property.type) {
+          case 'integer':
+            inputType = 'number';
+            break;
+          default:
+            inputType = 'text';
+            break;
+        }
+
+        return html`
+          <input type="${inputType}" />
+        `;
+      })
+      .join('');
+
     const body = html`
       <form>
-
+        ${formElements}
       </form>
     `;
 

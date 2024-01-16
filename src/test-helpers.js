@@ -14,7 +14,7 @@ export const jsonSchemaExample = {
     id: {
       type: "string",
       description: "The person's unique id.",
-      $comment: 'primary'
+      $comment: 'primary, readOnly'
     },
     firstName: {
       type: "string",
