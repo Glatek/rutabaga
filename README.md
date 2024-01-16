@@ -1,5 +1,8 @@
 # @glatek/rutabaga
 
+[![Biome](https://github.com/Glatek/rutabaga/actions/workflows/biome.yml/badge.svg)](https://github.com/Glatek/rutabaga/actions/workflows/biome.yml)
+[![Vitest](https://github.com/Glatek/rutabaga/actions/workflows/vitest.yml/badge.svg)](https://github.com/Glatek/rutabaga/actions/workflows/vitest.yml)
+
 ![Rutabaga Logo](https://i.imgur.com/0eOAq3T.png)
 
 JSON Schema-backed CRUD operations in Service Workers with IndexedDB.
