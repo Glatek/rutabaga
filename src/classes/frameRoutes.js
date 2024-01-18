@@ -27,6 +27,7 @@ export class FrameRoutes {
 	 * @returns {Promise<Response>}
 	 */
 	async get(request) {
+		const url = new URL(request.url);
 		const html = String.raw;
 		const requiredProperties = [...(this.#schema.required || [])];
 		const formElements = Object.entries(this.#schema.properties)
@@ -65,11 +66,11 @@ export class FrameRoutes {
 					attributes.push("required");
 				}
 
-				return html`<input ${attributes.join(" ")} />`;
+				return html`<label for="${propertyName}">${propertyName}</label><input ${attributes.join(" ")} />`;
 			})
 			.join("");
 
-		const body = html`<form>${formElements}</form>`;
+		const body = html`<form action="${url.searchParams.get('action') ?? '#'}" method="post">${formElements}</form>`;
 
 		return new Response(body, {
 			headers: new Headers({
