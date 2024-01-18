@@ -1,6 +1,6 @@
 {
 	"name": "@glatek/rutabaga",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "JSON Schema-backed CRUD operations in Service Workers with IndexedDB.",
 	"module": "./dist/index.js",
 	"type": "module",
