@@ -2,18 +2,24 @@
 	"name": "@glatek/rutabaga",
 	"version": "0.0.2",
 	"description": "JSON Schema-backed CRUD operations in Service Workers with IndexedDB.",
-	"main": "index.js",
+	"module": "./dist/index.js",
 	"type": "module",
 	"files": [
 		"dist"
 	],
+	"types": "dist/index.d.ts",
+	"exports": {
+		"import": "./dist/index.js",
+		"default": "./dist/index.js"
+	},
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "vitest",
 		"biome": "npx @biomejs/biome check ./src",
-		"biome:fix": "npx @biomejs/biome check --apply ./src"
+		"biome:fix": "npx @biomejs/biome check --apply ./src",
+		"prepublishOnly": "npx @skypack/package-check"
 	},
 	"repository": {
 		"type": "git",
@@ -23,8 +29,7 @@
 		"json",
 		"schema",
 		"crud",
-		"serivce",
-		"worker",
+		"service worker",
 		"indexeddb"
 	],
 	"author": "Jeremy Karlsson <jeremy@barlingshult.se>",
