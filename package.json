@@ -1,10 +1,12 @@
 {
 	"name": "@glatek/rutabaga",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "JSON Schema-backed CRUD operations in Service Workers with IndexedDB.",
 	"main": "index.js",
 	"type": "module",
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
@@ -17,7 +19,14 @@
 		"type": "git",
 		"url": "git+https://github.com/Glatek/rutabaga.git"
 	},
-	"keywords": ["json", "schema", "crud", "serivce", "worker", "indexeddb"],
+	"keywords": [
+		"json",
+		"schema",
+		"crud",
+		"serivce",
+		"worker",
+		"indexeddb"
+	],
 	"author": "Jeremy Karlsson <jeremy@barlingshult.se>",
 	"license": "MIT",
 	"bugs": {
