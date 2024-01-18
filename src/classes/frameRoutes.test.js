@@ -13,7 +13,7 @@ describe("get", () => {
 		const text = await getResponse.text();
 
 		expect(text).toStrictEqual(
-			'<form action="#" method="post"><label for="firstName">firstName</label><input type="text" name="firstName" required /><label for="lastName">lastName</label><input type="text" name="lastName" required /><label for="age">age</label><input type="number" name="age" required /><label for="birthday">birthday</label><input type="date" name="birthday" /></form>',
+			'<form action="#" method="post"><label for="firstName">firstName</label><input type="text" name="firstName" required /><label for="lastName">lastName</label><input type="text" name="lastName" required /><label for="age">age</label><input type="number" name="age" required /><label for="birthday">birthday</label><input type="date" name="birthday" /><button>Submit</button></form>',
 		);
 	});
 });

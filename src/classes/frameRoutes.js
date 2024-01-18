@@ -70,7 +70,7 @@ export class FrameRoutes {
 			})
 			.join("");
 
-		const body = html`<form action="${url.searchParams.get('action') ?? '#'}" method="post">${formElements}</form>`;
+		const body = html`<form action="${url.searchParams.get('action') ?? '#'}" method="post">${formElements}<button>Submit</button></form>`;
 
 		return new Response(body, {
 			headers: new Headers({
