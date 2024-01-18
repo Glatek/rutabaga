@@ -59,7 +59,7 @@ export class FrameRoutes {
 				const attributes = [];
 
 				attributes.push(`type="${inputType}"`);
-				attributes.push(`name="${propertyName}`);
+				attributes.push(`name="${propertyName}"`);
 
 				if (requiredProperties.includes(propertyName)) {
 					attributes.push("required");
